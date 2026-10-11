@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react'
-import { Volume2, VolumeX, Pause, Play, Music, ChevronRight } from 'lucide-react'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { Volume2, VolumeX, Pause, Play, Music } from 'lucide-react'
 import styles from './AudioControls.module.css'
 
+const AUTO_HIDE_DELAY_MS = 1800
+
 /**
- * AudioControls with Edge Docking.
+ * AudioControls with Automatic Edge Docking.
  *
- * - Docks neatly to the right edge as a sleek, non-intrusive tab by default so it
- *   never obstructs text on cards or buttons below.
- * - When tapped at the edge, it smoothly slides into full view ("when tapped at edge it will come").
- * - Once opened, it stays open while the user wants it ("when touched keep it the way it is").
- * - Features a tuck chevron so the user can easily slide it back to the edge whenever desired.
+ * - Docks flush against the right screen border by default so it never obstructs text or cards.
+ * - When tapped at the edge, it smoothly slides open.
+ * - Automatically hides back to the edge after 1.8s of inactivity or on outside tap.
+ * - Resets the auto-hide timer whenever touched/interacted with.
  * - Remains expanded and highlighted when the initial sound prompt is active.
  */
 export default function AudioControls({
@@ -23,53 +24,92 @@ export default function AudioControls({
   highlighted = false,
 }) {
   const [isExpanded, setIsExpanded] = useState(false)
+  const wrapRef = useRef(null)
+  const hideTimerRef = useRef(null)
 
-  // When highlighted by the initial sound prompt, keep it expanded
+  // Resets the inactivity timer to automatically tuck controls back to the edge
+  const resetHideTimer = useCallback(() => {
+    if (hideTimerRef.current) {
+      window.clearTimeout(hideTimerRef.current)
+      hideTimerRef.current = null
+    }
+    // Only auto-hide when not highlighted by the initial sound prompt
+    if (!highlighted) {
+      hideTimerRef.current = window.setTimeout(() => {
+        setIsExpanded(false)
+      }, AUTO_HIDE_DELAY_MS)
+    }
+  }, [highlighted])
+
+  // When highlighted by the initial sound prompt, stay expanded
   useEffect(() => {
     if (highlighted) {
       setIsExpanded(true)
+      if (hideTimerRef.current) window.clearTimeout(hideTimerRef.current)
     }
   }, [highlighted])
+
+  // When expanded, set auto-hide timer and close on outside tap
+  useEffect(() => {
+    if (isExpanded && !highlighted) {
+      resetHideTimer()
+
+      const handlePointerOutside = (e) => {
+        if (wrapRef.current && !wrapRef.current.contains(e.target)) {
+          setIsExpanded(false)
+        }
+      }
+
+      window.addEventListener('pointerdown', handlePointerOutside)
+      return () => {
+        if (hideTimerRef.current) window.clearTimeout(hideTimerRef.current)
+        window.removeEventListener('pointerdown', handlePointerOutside)
+      }
+    }
+  }, [isExpanded, highlighted, resetHideTimer])
 
   if (!hasTrack || failed) return null
 
   const handleEdgeClick = () => {
     if (!isExpanded) {
       setIsExpanded(true)
+    } else {
+      resetHideTimer()
     }
-  }
-
-  const handleTuck = (e) => {
-    e.stopPropagation()
-    setIsExpanded(false)
   }
 
   const isVisibleExpanded = isExpanded || highlighted
 
   return (
     <div
+      ref={wrapRef}
       className={`${styles.wrap} ${
         isVisibleExpanded ? styles.expanded : styles.collapsed
       } ${highlighted ? styles.highlighted : ''}`}
       onClick={handleEdgeClick}
+      onPointerEnter={resetHideTimer}
+      onTouchStart={resetHideTimer}
     >
       <div
         className={`${styles.pill} ${highlighted ? styles.highlightedPill : ''}`}
         role="region"
         aria-label="Audio controls"
       >
-        {/* Edge tab handle — always accessible on the right screen border */}
+        {/* Edge tab handle — always accessible on the right border */}
         <button
           type="button"
           className={styles.edgeHandle}
-          onClick={() => setIsExpanded((prev) => !prev)}
-          aria-label={isVisibleExpanded ? 'Tuck music controls to edge' : 'Open music controls'}
-          title={isVisibleExpanded ? 'Tuck to edge' : 'Open music controls'}
+          onClick={() => {
+            if (!isExpanded) setIsExpanded(true)
+            else resetHideTimer()
+          }}
+          aria-label={isVisibleExpanded ? 'Music controls active' : 'Open music controls'}
+          title={isVisibleExpanded ? 'Music controls' : 'Open music controls'}
         >
           <Music size={16} aria-hidden="true" />
         </button>
 
-        {/* Full controls: Play/Pause, Mute/Unmute, and Tuck */}
+        {/* Control buttons: Play/Pause and Mute/Unmute (automatically hides after 3.2s) */}
         {isVisibleExpanded && (
           <>
             <button
@@ -77,6 +117,7 @@ export default function AudioControls({
               className={styles.button}
               onClick={(e) => {
                 e.stopPropagation()
+                resetHideTimer()
                 onToggle()
               }}
               aria-label={playing ? 'Pause the music' : 'Play the music'}
@@ -92,6 +133,7 @@ export default function AudioControls({
               className={styles.button}
               onClick={(e) => {
                 e.stopPropagation()
+                resetHideTimer()
                 onToggleMute()
               }}
               aria-label={muted ? 'Unmute the music' : 'Mute the music'}
@@ -99,21 +141,6 @@ export default function AudioControls({
             >
               {muted ? <VolumeX size={18} aria-hidden="true" /> : <Volume2 size={18} aria-hidden="true" />}
             </button>
-
-            {!highlighted && (
-              <>
-                <span className={styles.divider} aria-hidden="true" />
-                <button
-                  type="button"
-                  className={styles.tuckButton}
-                  onClick={handleTuck}
-                  aria-label="Tuck music controls to edge"
-                  title="Tuck to edge"
-                >
-                  <ChevronRight size={17} aria-hidden="true" />
-                </button>
-              </>
-            )}
           </>
         )}
       </div>

@@ -132,26 +132,6 @@
   margin: 0 1px;
 }
 
-/* Tuck button (chevron to collapse back to the edge) */
-.tuckButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  color: var(--cream-faint);
-  transition:
-    background 0.2s var(--ease-out-soft),
-    color 0.2s var(--ease-out-soft);
-  cursor: pointer;
-  margin-left: 2px;
-}
-
-.tuckButton:hover {
-  color: var(--champagne);
-  background: rgba(242, 216, 167, 0.12);
-}
 
 /* Beacon halo when highlighted during the initial sound prompt */
 .highlightedPill {
