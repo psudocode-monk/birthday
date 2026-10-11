@@ -1,0 +1,220 @@
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(14px, 3dvh, 24px);
+  text-align: center;
+  padding: 16px 22px 0;
+  max-width: 520px;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--blush);
+}
+
+.title {
+  font-size: clamp(1.9rem, 8vw, 2.6rem);
+  font-style: italic;
+  color: var(--cream);
+}
+
+.subtitle {
+  font-size: 0.98rem;
+  color: var(--cream-dim);
+}
+
+.instruction {
+  font-size: 0.86rem;
+  color: var(--cream-faint);
+  max-width: 34ch;
+}
+
+/* ── Scene ─────────────────────────────────────────────────── */
+
+.scene {
+  position: relative;
+  width: min(88vw, 400px);
+  height: clamp(210px, 34dvh, 260px);
+  margin-top: 10px;
+}
+
+.starRow {
+  position: absolute;
+  inset: 0;
+}
+
+.starSlot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.starButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  color: var(--champagne);
+  animation: floaty 4.2s ease-in-out infinite;
+  transition:
+    transform 0.25s var(--ease-spring),
+    opacity 0.4s var(--ease-out-soft);
+}
+
+.starSlot:nth-child(2) .starButton {
+  animation-delay: -1.4s;
+}
+
+.starSlot:nth-child(3) .starButton {
+  animation-delay: -2.8s;
+}
+
+.starButton:active {
+  transform: scale(0.88);
+}
+
+.starGlyph {
+  width: 52px;
+  height: 52px;
+  filter: drop-shadow(0 0 14px rgba(242, 216, 167, 0.55));
+  transition: filter 0.5s var(--ease-out-soft);
+}
+
+.starDone {
+  color: var(--rose);
+  animation-play-state: paused;
+  opacity: 0.55;
+}
+
+.starDone .starGlyph {
+  filter: drop-shadow(0 0 10px rgba(217, 138, 160, 0.4));
+}
+
+/* Burst of sparks on collection */
+.burst {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+}
+
+.spark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--champagne-bright);
+  animation: burst 0.72s var(--ease-out-soft) forwards;
+}
+
+/* ── Jar ───────────────────────────────────────────────────── */
+
+.jar {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: clamp(96px, 26vw, 128px);
+  transition: filter 0.6s var(--ease-out-soft);
+  filter: drop-shadow(0 0 calc(var(--fill) * 26px) rgba(242, 216, 167, 0.55));
+}
+
+.jarSvg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.jarFill {
+  transform: translateY(calc((1 - var(--fill)) * 106px));
+  transition: transform 0.85s var(--ease-out-soft);
+}
+
+.settledStar {
+  animation: glowPulse 2.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(255, 238, 198, 0.85));
+}
+
+/* ── Progress ──────────────────────────────────────────────── */
+
+.progressArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+}
+
+.count {
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cream-faint);
+}
+
+.pips {
+  display: flex;
+  gap: 8px;
+}
+
+.pip {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--cream-ghost);
+  transition:
+    background 0.4s var(--ease-out-soft),
+    box-shadow 0.4s var(--ease-out-soft),
+    transform 0.4s var(--ease-spring);
+}
+
+.pipOn {
+  background: var(--champagne);
+  box-shadow: 0 0 10px rgba(242, 216, 167, 0.7);
+  transform: scale(1.15);
+}
+
+/* ── Message + footer ──────────────────────────────────────── */
+
+.messageArea {
+  width: 100%;
+  max-width: 420px;
+  min-height: 118px;
+}
+
+.footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 0 calc(16px + var(--safe-bottom));
+  background: linear-gradient(to top, rgba(7, 6, 26, 0.95) 60%, transparent);
+  margin-top: auto;
+}
+
+.complete {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--champagne);
+}

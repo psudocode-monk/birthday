@@ -1,0 +1,197 @@
+.sky {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.base {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 50% -10%, #1c1440 0%, transparent 60%),
+    linear-gradient(180deg, var(--night-800) 0%, var(--night-900) 55%, #050412 100%);
+}
+
+/* Stage mood glows — layered, cross-faded by opacity (cheap on GPU). */
+.glow {
+  position: absolute;
+  inset: -20%;
+  opacity: 0;
+  transition: opacity 1.6s var(--ease-out-soft);
+}
+
+.glowOn {
+  opacity: 1;
+}
+
+.glow1 {
+  background: radial-gradient(
+    60% 40% at 50% 62%,
+    rgba(242, 216, 167, 0.16) 0%,
+    rgba(217, 138, 160, 0.08) 40%,
+    transparent 72%
+  );
+}
+
+.glow2 {
+  background: radial-gradient(
+    55% 42% at 50% 78%,
+    rgba(242, 216, 167, 0.14) 0%,
+    rgba(126, 108, 214, 0.1) 45%,
+    transparent 72%
+  );
+}
+
+.glow3 {
+  background: radial-gradient(
+    65% 45% at 30% 70%,
+    rgba(217, 138, 160, 0.14) 0%,
+    rgba(242, 216, 167, 0.08) 45%,
+    transparent 72%
+  );
+}
+
+.glow4 {
+  background: radial-gradient(
+    50% 38% at 50% 20%,
+    rgba(242, 216, 167, 0.15) 0%,
+    rgba(126, 108, 214, 0.12) 50%,
+    transparent 75%
+  );
+}
+
+.glow5 {
+  background:
+    radial-gradient(60% 45% at 50% 68%, rgba(242, 216, 167, 0.2) 0%, transparent 68%),
+    radial-gradient(90% 60% at 50% 0%, rgba(217, 138, 160, 0.14) 0%, transparent 65%);
+}
+
+/* Starfield */
+.stars {
+  position: absolute;
+  inset: 0;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--cream);
+  opacity: 0.4;
+  animation-name: twinkle;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  will-change: opacity, transform;
+}
+
+.starBright {
+  background: var(--champagne-bright);
+  box-shadow: 0 0 8px rgba(255, 238, 198, 0.8);
+}
+
+.fallingStarsWrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.fallingStar {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+  animation-name: shootSlow;
+  animation-timing-function: cubic-bezier(0.25, 0.8, 0.35, 1);
+  animation-iteration-count: infinite;
+}
+
+.fallingStarHead {
+  position: absolute;
+  top: -1.5px;
+  left: -1.5px;
+  width: 3.5px;
+  height: 3.5px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow:
+    0 0 8px #ffffff,
+    0 0 14px #ffeec6,
+    0 0 20px rgba(242, 216, 167, 0.8);
+}
+
+.fallingStarTail {
+  position: absolute;
+  top: 0;
+  height: 1.5px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(243, 182, 199, 0.2) 35%,
+    rgba(242, 216, 167, 0.75) 75%,
+    #ffffff 100%
+  );
+  filter: drop-shadow(0 0 4px rgba(255, 238, 198, 0.7));
+  transform-origin: right center;
+}
+
+/* Same direction for all falling stars (138deg: top-right to bottom-left), slow gentle glide */
+@keyframes shootSlow {
+  0% {
+    transform: rotate(138deg) translate3d(-20px, 0, 0) scaleX(0.5);
+    opacity: 0;
+  }
+  1.5% {
+    opacity: 0.3;
+  }
+  3% {
+    opacity: 0.95;
+    transform: rotate(138deg) translate3d(35px, 0, 0) scaleX(1);
+  }
+  11% {
+    opacity: 0.85;
+    transform: rotate(138deg) translate3d(210px, 0, 0) scaleX(1);
+  }
+  14% {
+    opacity: 0;
+    transform: rotate(138deg) translate3d(270px, 0, 0) scaleX(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(138deg) translate3d(270px, 0, 0) scaleX(0.6);
+  }
+}
+
+.motes {
+  position: absolute;
+  inset: 0;
+}
+
+.mote {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(242, 216, 167, 0.9), rgba(242, 216, 167, 0));
+  animation-name: drift;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  opacity: 0;
+}
+
+/* Film grain via a tiny inline SVG turbulence tile. */
+.grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+  mix-blend-mode: overlay;
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(4, 3, 14, 0.55) 100%);
+}

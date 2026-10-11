@@ -1,0 +1,231 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(20, 16, 50, 0.72) 0%,
+    rgba(7, 6, 26, 0.88) 60%,
+    rgba(4, 3, 14, 0.95) 100%
+  );
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
+/* Ambient central spotlight focus */
+.centerSpotlight {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(85vw, 420px);
+  aspect-ratio: 1;
+  background: radial-gradient(
+    circle,
+    rgba(242, 216, 167, 0.22) 0%,
+    rgba(243, 182, 199, 0.12) 38%,
+    rgba(36, 26, 65, 0.0) 70%
+  );
+  border-radius: 50%;
+  animation: glowPulse 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* The prompt modal card in the center */
+.card {
+  position: relative;
+  z-index: 56;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  max-width: 380px;
+  width: 100%;
+  padding: 30px 24px 24px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(165deg, rgba(36, 26, 65, 0.85) 0%, rgba(13, 11, 38, 0.92) 100%);
+  border: 1px solid rgba(242, 216, 167, 0.32);
+  box-shadow:
+    0 20px 50px rgba(4, 3, 14, 0.8),
+    0 0 35px rgba(242, 216, 167, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* Icon halo */
+.iconWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  color: var(--champagne-bright);
+  background: radial-gradient(circle at 35% 35%, rgba(242, 216, 167, 0.35) 0%, rgba(36, 26, 65, 0.8) 100%);
+  border: 1px solid rgba(242, 216, 167, 0.4);
+  box-shadow: 0 0 20px rgba(242, 216, 167, 0.35);
+  animation: breathe 3.2s ease-in-out infinite;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 5.5vw, 1.85rem);
+  font-style: italic;
+  font-weight: 600;
+  color: var(--cream);
+  line-height: 1.22;
+  text-shadow: 0 2px 20px rgba(242, 216, 167, 0.3);
+}
+
+.subtitle {
+  font-size: 0.92rem;
+  line-height: 1.58;
+  color: var(--cream-dim);
+  max-width: 32ch;
+}
+
+/* Actions in the center */
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.turnOnBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 22px;
+  border-radius: 999px;
+  font-size: 0.96rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: #1a102a;
+  background: linear-gradient(135deg, #ffeec6 0%, #f2d8a7 55%, #f3b6c7 100%);
+  box-shadow:
+    0 6px 20px rgba(242, 216, 167, 0.45),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  transition:
+    transform 0.2s var(--ease-spring),
+    box-shadow 0.25s var(--ease-out-soft);
+  cursor: pointer;
+}
+
+.turnOnBtn:active {
+  transform: scale(0.96);
+}
+
+.dismissBtn {
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cream-faint);
+  background: none;
+  border: none;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: color 0.25s var(--ease-out-soft);
+}
+
+.dismissBtn:hover {
+  color: var(--champagne);
+}
+
+/* Fullscreen light trail SVG */
+.lightTrailSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 54;
+}
+
+/* Base glowing light path */
+.trailGlow {
+  fill: none;
+  stroke: rgba(242, 216, 167, 0.28);
+  stroke-width: 10;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 12px rgba(242, 216, 167, 0.7));
+}
+
+/* Animated flowing core beam */
+.trailCore {
+  fill: none;
+  stroke: url(#trailGrad);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-dasharray: 14 12;
+  animation: flowDashes 1.8s linear infinite;
+}
+
+@keyframes flowDashes {
+  from {
+    stroke-dashoffset: 52;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Beacon halo pulsing at the target music player */
+.targetHalo {
+  animation: beaconPulse 2s ease-out infinite;
+  transform-origin: center;
+}
+
+.targetHaloOuter {
+  animation: beaconPulse 2s ease-out infinite 0.7s;
+  transform-origin: center;
+}
+
+@keyframes beaconPulse {
+  0% {
+    r: 16px;
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    r: 44px;
+    opacity: 0;
+  }
+}
+
+/* Little guide label pointing to music player */
+.targetLabel {
+  position: absolute;
+  right: calc(14px + var(--safe-right, 0px));
+  bottom: calc(68px + var(--safe-bottom));
+  z-index: 58;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  color: var(--champagne-bright);
+  background: rgba(20, 16, 50, 0.92);
+  border: 1px solid rgba(242, 216, 167, 0.45);
+  box-shadow:
+    0 4px 18px rgba(4, 3, 14, 0.6),
+    0 0 16px rgba(242, 216, 167, 0.4);
+  animation: floaty 3s ease-in-out infinite;
+  pointer-events: none;
+}

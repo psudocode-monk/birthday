@@ -1,0 +1,60 @@
+/* ── Design tokens ─────────────────────────────────────────── */
+
+:root {
+  /* Type */
+  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-body: 'Jost', system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', sans-serif;
+
+  /* Night sky */
+  --night-900: #07061a;
+  --night-800: #0d0b26;
+  --night-700: #141032;
+  --plum: #241a41;
+  --plum-soft: #35275a;
+
+  /* Warm light */
+  --champagne: #f2d8a7;
+  --champagne-bright: #ffeec6;
+  --blush: #f3b6c7;
+  --rose: #d98aa0;
+
+  /* Text */
+  --cream: #fdf6ec;
+  --cream-dim: rgba(253, 246, 236, 0.72);
+  --cream-faint: rgba(253, 246, 236, 0.45);
+  --cream-ghost: rgba(253, 246, 236, 0.16);
+
+  /* Shape */
+  --radius-xl: 32px;
+  --radius-lg: 26px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  /* Shadows & glows */
+  --glow-warm: 0 0 30px rgba(242, 216, 167, 0.28);
+  --shadow-card: 0 18px 50px rgba(4, 3, 14, 0.55);
+  --ring: 0 0 0 2px rgba(242, 216, 167, 0.85);
+
+  /* Layout */
+  --tap-min: 44px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+
+  color-scheme: dark;
+}
+
+/* Live theme overrides (written from JS config at runtime). */
+[data-theme='custom'] {
+  --night-900: var(--theme-midnight, var(--night-900));
+  --plum: var(--theme-plum, var(--plum));
+  --champagne: var(--theme-champagne, var(--champagne));
+  --blush: var(--theme-blush, var(--blush));
+  --rose: var(--theme-rose, var(--rose));
+  --cream: var(--theme-cream, var(--cream));
+}

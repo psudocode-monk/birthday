@@ -1,0 +1,131 @@
+.bar {
+  position: relative;
+  z-index: 30;
+  padding: calc(var(--safe-top) + 14px) 12px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+/* Row containing back button + dots + spacer */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+/* Back chevron button */
+.backButton {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  border-radius: 50%;
+  color: var(--cream-faint);
+  opacity: 0;
+  transform: scale(0.7);
+  transition:
+    opacity 0.35s var(--ease-out-soft),
+    transform 0.35s var(--ease-spring),
+    color 0.25s var(--ease-out-soft),
+    background 0.25s var(--ease-out-soft);
+  pointer-events: none;
+}
+
+.backVisible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.backButton:hover {
+  color: var(--champagne);
+  background: rgba(242, 216, 167, 0.1);
+}
+
+.backButton:active {
+  transform: scale(0.88);
+}
+
+/* Spacer mirrors the back button to keep dots centred */
+.spacer {
+  width: var(--tap-min);
+  height: var(--tap-min);
+  flex-shrink: 0;
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+}
+
+.locked {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--cream-ghost);
+}
+
+.dot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  pointer-events: auto;
+}
+
+.fill {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(242, 216, 167, 0.55);
+  transition:
+    width 0.45s var(--ease-out-soft),
+    background 0.45s var(--ease-out-soft),
+    box-shadow 0.45s var(--ease-out-soft);
+}
+
+.dot:hover .fill,
+.dot:focus-visible .fill {
+  background: var(--champagne);
+}
+
+.current .fill {
+  width: 26px;
+  background: linear-gradient(90deg, var(--champagne), var(--blush));
+  box-shadow: 0 0 12px rgba(242, 216, 167, 0.55);
+}
+
+.wordmark {
+  font-size: 0.66rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--cream-faint);
+}
+
+.announce {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

@@ -1,0 +1,178 @@
+/* ── Shared keyframes ──────────────────────────────────────── */
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-3.5deg);
+  }
+  50% {
+    transform: rotate(3.5deg);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  35% {
+    transform: scale(1.08, 0.94) translateY(-0.6px);
+    opacity: 0.86;
+  }
+  70% {
+    transform: scale(0.95, 1.07) translateY(0.4px);
+    opacity: 0.96;
+  }
+}
+
+@keyframes fall {
+  from {
+    transform: translate3d(0, -90px, 0);
+  }
+  to {
+    transform: translate3d(0, var(--fall-distance, 560px), 0);
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.7;
+  }
+  88% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate3d(-140px, -90px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes shootStar {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(18deg);
+    opacity: 0;
+  }
+  3% {
+    opacity: 0.9;
+  }
+  12% {
+    transform: translate3d(-260px, 84px, 0) rotate(18deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(-260px, 84px, 0) rotate(18deg);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -140% 0;
+  }
+  100% {
+    background-position: 240% 0;
+  }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes burst {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.5);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate3d(var(--bx, 0px), var(--by, -30px), 0) scale(1.1);
+    opacity: 0;
+  }
+}
+
+@keyframes plusOne {
+  0% {
+    transform: translateY(4px) scale(0.8);
+    opacity: 0;
+  }
+  25% {
+    transform: translateY(-4px) scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-30px) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes riseFade {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
